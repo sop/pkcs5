@@ -1,0 +1,35 @@
+{
+	"name": "sop/pkcs5",
+	"description": "A PHP implementation of PKCS #5 password-based cryptography.",
+	"homepage": "https://github.com/sop/pkcs5",
+	"license": "MIT",
+	"type": "library",
+	"keywords": [
+		"pkcs5",
+		"key-derivation",
+		"password",
+		"pbes1",
+		"pbes2",
+		"pbkdf1",
+		"pbkdf2"
+	],
+	"authors": [
+		{
+			"name": "Joni Eskelinen",
+			"email": "jonieske@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.6.3",
+		"sop/asn1": "^2.0.0",
+		"sop/crypto-types": "dev-master",
+		"sop/crypto-bridge": "dev-master"
+	},
+	"minimum-stability": "dev",
+	"autoload": {
+		"psr-4": {
+			"Sop\\PKCS5\\": "lib/PKCS5"
+		}
+	}
+}
