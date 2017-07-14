@@ -23,10 +23,9 @@
 	"require": {
 		"php": ">=5.6.3",
 		"sop/asn1": "^2.0.0",
-		"sop/crypto-types": "dev-master",
-		"sop/crypto-bridge": "dev-master"
+		"sop/crypto-types": "0.1.0",
+		"sop/crypto-bridge": "0.1.0"
 	},
-	"minimum-stability": "dev",
 	"autoload": {
 		"psr-4": {
 			"Sop\\PKCS5\\": "lib/PKCS5"
