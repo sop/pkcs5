@@ -61,14 +61,15 @@ abstract class PBEScheme
     /**
      * Get PBEScheme by algorithm identifier.
      *
-     * @param PBEAlgorithmIdentifier $algo
-     * @param Crypto $crypto
+     * @param PBEAlgorithmIdentifier $algo Algorithm identifier
+     * @param Crypto|null $crypto Crypto engine, use default if not set
      * @throws \UnexpectedValueException
      * @return self
      */
     public static function fromAlgorithmIdentifier(PBEAlgorithmIdentifier $algo,
-        Crypto $crypto)
+        Crypto $crypto = null)
     {
+        $crypto = $crypto ?: Crypto::getDefault();
         if ($algo instanceof PBES1AlgorithmIdentifier) {
             return new PBES1($algo->hashFunc(), $algo->blockCipher(),
                 $algo->salt(), $algo->iterationCount(), $crypto);
