@@ -1,16 +1,20 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
 use Sop\PKCS5\Padding;
 
 /**
  * @group pbe
  */
-class PaddingTest extends PHPUnit_Framework_TestCase
+class PaddingTest extends TestCase
 {
     protected static $_padding;
+    
     public static function setUpBeforeClass()
     {
         self::$_padding = new Padding(8);
     }
+    
     public static function tearDownAfterClass()
     {
         self::$_padding = null;

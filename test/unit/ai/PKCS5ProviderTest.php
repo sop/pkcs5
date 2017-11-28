@@ -1,7 +1,9 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PKCS5AlgorithmIdentifierProvider;
 
-class PKCS5ProviderTest extends PHPUnit_Framework_TestCase
+class PKCS5ProviderTest extends TestCase
 {
     /**
      * @expectedException UnexpectedValueException

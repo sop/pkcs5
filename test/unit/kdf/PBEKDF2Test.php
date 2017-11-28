@@ -1,4 +1,6 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
 use Sop\PKCS5\PBEKD\PBEKDF;
 use Sop\PKCS5\PBEKD\PBEKDF2;
 use Sop\PKCS5\PRF\HMACSHA1;
@@ -7,7 +9,7 @@ use Sop\PKCS5\PRF\HMACSHA1;
  * @group pbe
  * @group kdf
  */
-class PBEKDF2Test extends PHPUnit_Framework_TestCase
+class PBEKDF2Test extends TestCase
 {
     /**
      *

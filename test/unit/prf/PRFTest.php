@@ -1,4 +1,6 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
 use Sop\CryptoTypes\AlgorithmIdentifier\Hash\RFC4231HMACAlgorithmIdentifier;
 use Sop\PKCS5\PRF\HMACSHA1;
 use Sop\PKCS5\PRF\PRF;
@@ -7,7 +9,7 @@ use Sop\PKCS5\PRF\PRF;
  * @group pbe
  * @group prf
  */
-class PRFTest extends PHPUnit_Framework_TestCase
+class PRFTest extends TestCase
 {
     public function testInvoke()
     {
@@ -32,7 +34,8 @@ class PRFTest_UnsupportedAlgo extends RFC4231HMACAlgorithmIdentifier
     {
         $this->_oid = "1.3.6.1.3";
     }
-    public function name()
+    
+    public function name(): string
     {
         return "";
     }

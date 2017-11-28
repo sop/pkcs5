@@ -1,4 +1,6 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
 use Sop\PKCS5\HashFunc\HashFunc;
 use Sop\PKCS5\HashFunc\SHA1;
 
@@ -6,7 +8,7 @@ use Sop\PKCS5\HashFunc\SHA1;
  * @group pbe
  * @group hash
  */
-class PBESHA1Test extends PHPUnit_Framework_TestCase
+class PBESHA1Test extends TestCase
 {
     /**
      *

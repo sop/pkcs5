@@ -1,6 +1,8 @@
 <?php
+
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
+use PHPUnit\Framework\TestCase;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
@@ -11,10 +13,12 @@ use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBKDF2AlgorithmIdentifier;
  * @group asn1
  * @group algo-id
  */
-class PBEKDF2AITest extends PHPUnit_Framework_TestCase
+class PBEKDF2AITest extends TestCase
 {
     const SALT = "12345678";
+    
     const COUNT = 4096;
+    
     const KEY_LEN = 8;
     
     /**

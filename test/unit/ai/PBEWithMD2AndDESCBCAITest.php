@@ -1,5 +1,7 @@
 <?php
+
 use ASN1\Type\Constructed\Sequence;
+use PHPUnit\Framework\TestCase;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEAlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithMD2AndDESCBCAlgorithmIdentifier;
@@ -8,9 +10,10 @@ use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithMD2AndDESCBCAlgorithmIdentifier;
  * @group asn1
  * @group algo-id
  */
-class PBEWithMD2AndDESCBCAITest extends PHPUnit_Framework_TestCase
+class PBEWithMD2AndDESCBCAITest extends TestCase
 {
     const SALT = "12345678";
+    
     const COUNT = 4096;
     
     /**

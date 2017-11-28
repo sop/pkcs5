@@ -1,4 +1,6 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
 use Sop\PKCS5\HashFunc\HashFunc;
 use Sop\PKCS5\HashFunc\MD5;
 
@@ -6,7 +8,7 @@ use Sop\PKCS5\HashFunc\MD5;
  * @group pbe
  * @group hash
  */
-class PBEMD5Test extends PHPUnit_Framework_TestCase
+class PBEMD5Test extends TestCase
 {
     /**
      *
@@ -37,7 +39,7 @@ class PBEMD5Test extends PHPUnit_Framework_TestCase
     public function testHash(HashFunc $func)
     {
         static $data = "DATA";
-        $expected = md5($data, true);
+        $expected = hash("md5", $data, true);
         $this->assertEquals($expected, $func($data));
     }
 }

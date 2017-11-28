@@ -1,6 +1,9 @@
 <?php
-use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
+
+use PHPUnit\Framework\TestCase;
 use Sop\CryptoBridge\Crypto;
+use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
+use Sop\PKCS5\PBEScheme;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEAlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBES2AlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithMD2AndDESCBCAlgorithmIdentifier;
@@ -12,12 +15,11 @@ use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithSHA1And40BitRC2CBCAlgorithmIdentif
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithSHA1AndDESCBCAlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithSHA1AndRC2CBCAlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBKDF2AlgorithmIdentifier;
-use Sop\PKCS5\PBEScheme;
 
 /**
  * @group pbe
  */
-class PBESchemeTest extends PHPUnit_Framework_TestCase
+class PBESchemeTest extends TestCase
 {
     /**
      * @dataProvider provideFromAlgo
@@ -29,6 +31,7 @@ class PBESchemeTest extends PHPUnit_Framework_TestCase
         $pbe = PBEScheme::fromAlgorithmIdentifier($algo, Crypto::getDefault());
         $this->assertInstanceOf(PBEScheme::class, $pbe);
     }
+    
     public function provideFromAlgo()
     {
         static $salt = "12345678";
@@ -78,10 +81,12 @@ class PBESchemeTest_UnsupportedPBEAlgo extends PBEAlgorithmIdentifier
         parent::__construct($salt, $iteration_count);
         $this->_oid = "1.3.6.1.3";
     }
-    public function name()
+    
+    public function name(): string
     {
         return "";
     }
+    
     protected function _paramsASN1()
     {
         return null;
@@ -95,10 +100,12 @@ class PBESchemeTest_InvalidPBES2Algo extends PBEAlgorithmIdentifier
         parent::__construct($salt, $iteration_count);
         $this->_oid = PBEAlgorithmIdentifier::OID_PBES2;
     }
-    public function name()
+    
+    public function name(): string
     {
         return "";
     }
+    
     protected function _paramsASN1()
     {
         return null;

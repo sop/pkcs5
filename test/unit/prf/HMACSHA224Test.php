@@ -1,4 +1,6 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
 use Sop\CryptoTypes\AlgorithmIdentifier\Hash\HMACWithSHA224AlgorithmIdentifier;
 use Sop\PKCS5\PRF\HMACSHA224;
 use Sop\PKCS5\PRF\PRF;
@@ -7,7 +9,7 @@ use Sop\PKCS5\PRF\PRF;
  * @group pbe
  * @group prf
  */
-class PRFHMACSHA224Test extends PHPUnit_Framework_TestCase
+class PRFHMACSHA224Test extends TestCase
 {
     /**
      *

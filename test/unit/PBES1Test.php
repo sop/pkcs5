@@ -1,6 +1,8 @@
 <?php
-use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
+
+use PHPUnit\Framework\TestCase;
 use Sop\CryptoBridge\Crypto;
+use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
 use Sop\PKCS5\PBES1;
 use Sop\PKCS5\PBEScheme;
 use Sop\PKCS5\HashFunc\MD5;
@@ -9,12 +11,16 @@ use Sop\PKCS5\PBEKD\PBEKDF;
 /**
  * @group pbe
  */
-class PBES1Test extends PHPUnit_Framework_TestCase
+class PBES1Test extends TestCase
 {
     const SALT = "12345678";
+    
     const ITER_COUNT = 8;
+    
     const DATA = "DATA";
+    
     const PASSWORD = "P4s5w0Rd";
+    
     const KEY_16 = "0123456789abcdef";
     
     /**

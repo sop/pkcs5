@@ -1,6 +1,8 @@
 <?php
+
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\ObjectIdentifier;
+use PHPUnit\Framework\TestCase;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
@@ -12,7 +14,7 @@ use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBKDF2AlgorithmIdentifier;
  * @group asn1
  * @group algo-id
  */
-class PBES2AITest extends PHPUnit_Framework_TestCase
+class PBES2AITest extends TestCase
 {
     /**
      *

@@ -1,6 +1,9 @@
 <?php
-use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
+
+use PHPUnit\Framework\TestCase;
 use Sop\CryptoBridge\Crypto;
+use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
+use Sop\PKCS5\PBEScheme;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEAlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBES2AlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithMD2AndDESCBCAlgorithmIdentifier;
@@ -10,11 +13,11 @@ use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithMD5AndRC2CBCAlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithSHA1AndDESCBCAlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithSHA1AndRC2CBCAlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBKDF2AlgorithmIdentifier;
-use Sop\PKCS5\PBEScheme;
 
-class CryptIntegrationTest extends PHPUnit_Framework_TestCase
+class CryptIntegrationTest extends TestCase
 {
     const DATA = "testdata";
+    
     const PASSWORD = "password";
     
     /**

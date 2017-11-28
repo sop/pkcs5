@@ -1,21 +1,25 @@
 <?php
-use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
+
+use PHPUnit\Framework\TestCase;
 use Sop\CryptoBridge\Crypto;
+use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\DESCBCAlgorithmIdentifier;
 use Sop\PKCS5\PBES2;
 use Sop\PKCS5\PRF\HMACSHA1;
 
 /**
  * @group pbe
  */
-class PBES2Test extends PHPUnit_Framework_TestCase
+class PBES2Test extends TestCase
 {
     private static $_pbe;
+    
     public static function setUpBeforeClass()
     {
         self::$_pbe = new PBES2(new HMACSHA1(),
             new DESCBCAlgorithmIdentifier("12345678"), "salt", 1,
             Crypto::getDefault());
     }
+    
     public static function tearDownAfterClass()
     {
         self::$_pbe = null;

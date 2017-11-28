@@ -1,4 +1,6 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
 use Sop\PKCS5\HashFunc\MD5;
 use Sop\PKCS5\PBEKD\PBEKDF;
 use Sop\PKCS5\PBEKD\PBEKDF1;
@@ -7,7 +9,7 @@ use Sop\PKCS5\PBEKD\PBEKDF1;
  * @group pbe
  * @group kdf
  */
-class PBEKDF1Test extends PHPUnit_Framework_TestCase
+class PBEKDF1Test extends TestCase
 {
     /**
      *

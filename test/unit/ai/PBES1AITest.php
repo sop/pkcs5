@@ -1,4 +1,6 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEAlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithMD5AndDESCBCAlgorithmIdentifier;
 
@@ -6,7 +8,7 @@ use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEWithMD5AndDESCBCAlgorithmIdentifier;
  * @group asn1
  * @group algo-id
  */
-class PBES1AITest extends PHPUnit_Framework_TestCase
+class PBES1AITest extends TestCase
 {
     /**
      * @expectedException UnexpectedValueException
