@@ -10,6 +10,13 @@ password-based cryptography.
 
 Provides ASN.1 types for PBE algorithm identifiers and related structures.
 
+## Requirements
+
+-   PHP >=7.0
+-   [sop/asn1](https://github.com/sop/asn1)
+-   [sop/crypto-types](https://github.com/sop/crypto-types)
+-   [sop/crypto-bridge](https://github.com/sop/crypto-bridge)
+
 ## Installation
 
 This library is available on
