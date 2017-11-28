@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\ASN1\AlgorithmIdentifier;
 
 use ASN1\Type\UnspecifiedType;
@@ -61,7 +63,7 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
      *
      * {@inheritdoc}
      */
-    public function name()
+    public function name(): string
     {
         return "pkcs5PBES2";
     }
@@ -98,7 +100,7 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
      *
      * @return PBKDF2AlgorithmIdentifier
      */
-    public function kdfAlgorithmIdentifier()
+    public function kdfAlgorithmIdentifier(): PBKDF2AlgorithmIdentifier
     {
         return $this->_kdf;
     }
@@ -108,7 +110,7 @@ class PBES2AlgorithmIdentifier extends PBEAlgorithmIdentifier
      *
      * @return BlockCipherAlgorithmIdentifier
      */
-    public function esAlgorithmIdentifier()
+    public function esAlgorithmIdentifier(): BlockCipherAlgorithmIdentifier
     {
         return $this->_es;
     }

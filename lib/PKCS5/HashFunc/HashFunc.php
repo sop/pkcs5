@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\HashFunc;
 
 /**
@@ -20,7 +22,7 @@ abstract class HashFunc
      * @param string $data
      * @return string Hash result in raw format
      */
-    abstract public function hash($data);
+    abstract public function hash(string $data): string;
     
     /**
      * Functor interface.
@@ -28,7 +30,7 @@ abstract class HashFunc
      * @param string $data
      * @return string
      */
-    public function __invoke($data)
+    public function __invoke(string $data): string
     {
         return $this->hash($data);
     }
@@ -38,7 +40,7 @@ abstract class HashFunc
      *
      * @return int
      */
-    public function length()
+    public function length(): int
     {
         return $this->_length;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\ASN1\AlgorithmIdentifier;
 
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierProvider;
@@ -29,9 +31,8 @@ class PKCS5AlgorithmIdentifierProvider implements AlgorithmIdentifierProvider
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function supportsOID($oid)
+    public function supportsOID(string $oid): bool
     {
         return array_key_exists($oid, self::MAP_OID_TO_CLASS);
     }
@@ -39,9 +40,8 @@ class PKCS5AlgorithmIdentifierProvider implements AlgorithmIdentifierProvider
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function getClassByOID($oid)
+    public function getClassByOID(string $oid): string
     {
         if (!$this->supportsOID($oid)) {
             throw new \UnexpectedValueException(

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\PBEKD;
 
 use Sop\PKCS5\PRF\PRF;
@@ -31,12 +33,12 @@ class PBEKDF2 extends PBEKDF
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function derive($password, $salt, $count, $length)
+    public function derive(string $password, string $salt, int $count,
+        int $length): string
     {
         $hlen = $this->_prf->length();
-        $l = ceil($length / $hlen);
+        $l = intval(ceil($length / $hlen));
         $r = $length - ($l - 1) * $hlen;
         $blocks = array();
         for ($i = 1; $i <= $l; ++$i) {
@@ -57,7 +59,7 @@ class PBEKDF2 extends PBEKDF
      * @param int $i
      * @return string
      */
-    protected function _f($P, $S, $c, $i)
+    protected function _f(string $P, string $S, int $c, int $i): string
     {
         // compute U_1
         $U = $this->_prf->compute($P, $S . pack("N", $i));

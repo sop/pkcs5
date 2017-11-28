@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\ASN1\AlgorithmIdentifier;
 
 /**
@@ -16,7 +18,7 @@ abstract class PBES1PKCS12AlgorithmIdentifier extends PBES1AlgorithmIdentifier
      * @param int $iteration_count Iteration count
      * @throws \UnexpectedValueException
      */
-    public function __construct($salt, $iteration_count)
+    public function __construct(string $salt, int $iteration_count)
     {
         parent::__construct($salt, $iteration_count);
     }

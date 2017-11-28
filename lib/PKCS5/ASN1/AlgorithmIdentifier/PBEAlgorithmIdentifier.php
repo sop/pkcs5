@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\ASN1\AlgorithmIdentifier;
 
 use ASN1\Type\Constructed\Sequence;
+use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierFactory;
 use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\EncryptionAlgorithmIdentifier;
@@ -53,7 +56,7 @@ abstract class PBEAlgorithmIdentifier extends SpecificAlgorithmIdentifier implem
      * @param string $salt
      * @param int $iteration_count
      */
-    public function __construct($salt, $iteration_count)
+    public function __construct(string $salt, int $iteration_count)
     {
         $this->_salt = $salt;
         $this->_iterationCount = $iteration_count;
@@ -62,9 +65,9 @@ abstract class PBEAlgorithmIdentifier extends SpecificAlgorithmIdentifier implem
     /**
      *
      * @param Sequence $seq
-     * @return \Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier
+     * @return AlgorithmIdentifier
      */
-    public static function fromASN1(Sequence $seq)
+    public static function fromASN1(Sequence $seq): AlgorithmIdentifier
     {
         return (new AlgorithmIdentifierFactory(
             new PKCS5AlgorithmIdentifierProvider()))->parse($seq);
@@ -75,7 +78,7 @@ abstract class PBEAlgorithmIdentifier extends SpecificAlgorithmIdentifier implem
      *
      * @return string
      */
-    public function salt()
+    public function salt(): string
     {
         return $this->_salt;
     }
@@ -85,7 +88,7 @@ abstract class PBEAlgorithmIdentifier extends SpecificAlgorithmIdentifier implem
      *
      * @return int
      */
-    public function iterationCount()
+    public function iterationCount(): int
     {
         return $this->_iterationCount;
     }

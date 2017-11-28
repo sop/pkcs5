@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5;
 
 use Sop\CryptoBridge\Crypto;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBEAlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBES1AlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBES2AlgorithmIdentifier;
+use Sop\PKCS5\PBEKD\PBEKDF;
 use Sop\PKCS5\PRF\PRF;
 
 /**
@@ -22,7 +25,7 @@ abstract class PBEScheme
      * @param string $password Password
      * @return string Ciphertext
      */
-    abstract public function encrypt($data, $password);
+    abstract public function encrypt(string $data, string $password): string;
     
     /**
      * Encrypt data with pre-derived key.
@@ -31,7 +34,7 @@ abstract class PBEScheme
      * @param string $key Derived key
      * @return string Ciphertext
      */
-    abstract public function encryptWithKey($data, $key);
+    abstract public function encryptWithKey(string $data, string $key): string;
     
     /**
      * Decrypt data.
@@ -40,7 +43,7 @@ abstract class PBEScheme
      * @param string $password Password
      * @return string Plaintext
      */
-    abstract public function decrypt($data, $password);
+    abstract public function decrypt(string $data, string $password): string;
     
     /**
      * Decrypt data with pre-derived key.
@@ -49,14 +52,14 @@ abstract class PBEScheme
      * @param string $key Derived key
      * @return string Plaintext
      */
-    abstract public function decryptWithKey($data, $key);
+    abstract public function decryptWithKey(string $data, string $key): string;
     
     /**
      * Get key-derivation function.
      *
-     * @return \Sop\PKCS5\PBEKD\PBEKDF
+     * @return PBEKDF
      */
-    abstract public function kdf();
+    abstract public function kdf(): PBEKDF;
     
     /**
      * Get PBEScheme by algorithm identifier.
@@ -67,7 +70,7 @@ abstract class PBEScheme
      * @return self
      */
     public static function fromAlgorithmIdentifier(PBEAlgorithmIdentifier $algo,
-        Crypto $crypto = null)
+        Crypto $crypto = null): PBEScheme
     {
         $crypto = $crypto ?: Crypto::getDefault();
         if ($algo instanceof PBES1AlgorithmIdentifier) {

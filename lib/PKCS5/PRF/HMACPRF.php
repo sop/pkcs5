@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\PRF;
 
 /**
@@ -12,14 +14,13 @@ abstract class HMACPRF extends PRF
      *
      * @return string
      */
-    abstract protected function _hashAlgo();
+    abstract protected function _hashAlgo(): string;
     
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function compute($arg1, $arg2)
+    public function compute(string $arg1, string $arg2): string
     {
         return hash_hmac($this->_hashAlgo(), $arg2, $arg1, true);
     }

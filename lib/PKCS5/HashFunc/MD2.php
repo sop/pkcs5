@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\HashFunc;
 
 /**
@@ -18,9 +20,8 @@ class MD2 extends HashFunc
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function hash($data)
+    public function hash(string $data): string
     {
         return hash("md2", $data, true);
     }

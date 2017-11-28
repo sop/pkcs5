@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\PBEKD;
 
 /**
@@ -18,5 +20,6 @@ abstract class PBEKDF
      * @param int $length Derived key length
      * @return string Key with a size of $length
      */
-    abstract public function derive($password, $salt, $count, $length);
+    abstract public function derive(string $password, string $salt, int $count,
+        int $length): string;
 }

@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\ASN1\AlgorithmIdentifier;
 
 use ASN1\Type\UnspecifiedType;
 use ASN1\Type\Constructed\Sequence;
 use ASN1\Type\Primitive\Integer;
 use ASN1\Type\Primitive\OctetString;
+use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\BlockCipherAlgorithmIdentifier;
+use Sop\PKCS5\HashFunc\HashFunc;
 
 /* @formatter:off *//*
 
@@ -43,16 +47,16 @@ abstract class PBES1AlgorithmIdentifier extends PBEAlgorithmIdentifier
     /**
      * Get the hash function used by the scheme.
      *
-     * @return \Sop\PKCS5\HashFunc\HashFunc
+     * @return HashFunc
      */
-    abstract public function hashFunc();
+    abstract public function hashFunc(): HashFunc;
     
     /**
      * Get the block cipher algorithm identifier used by the scheme.
      *
-     * @return \Sop\CryptoTypes\AlgorithmIdentifier\Cipher\BlockCipherAlgorithmIdentifier
+     * @return BlockCipherAlgorithmIdentifier
      */
-    abstract public function blockCipher();
+    abstract public function blockCipher(): BlockCipherAlgorithmIdentifier;
     
     /**
      *
@@ -71,14 +75,13 @@ abstract class PBES1AlgorithmIdentifier extends PBEAlgorithmIdentifier
             ->string();
         $iteration_count = $seq->at(1)
             ->asInteger()
-            ->number();
+            ->intNumber();
         return new static($salt, $iteration_count);
     }
     
     /**
      *
      * {@inheritdoc}
-     *
      */
     protected function _paramsASN1()
     {

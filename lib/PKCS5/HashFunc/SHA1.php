@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\HashFunc;
 
 /**
@@ -18,9 +20,8 @@ class SHA1 extends HashFunc
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function hash($data)
+    public function hash(string $data): string
     {
         return sha1($data, true);
     }

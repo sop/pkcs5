@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\PRF;
 
 /**
@@ -20,9 +22,8 @@ class HMACSHA1 extends HMACPRF
     /**
      *
      * {@inheritdoc}
-     *
      */
-    protected function _hashAlgo()
+    protected function _hashAlgo(): string
     {
         return "sha1";
     }

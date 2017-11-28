@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5;
 
 use Sop\CryptoBridge\Crypto;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\CipherAlgorithmIdentifier;
 use Sop\PKCS5\HashFunc\HashFunc;
+use Sop\PKCS5\PBEKD\PBEKDF;
 use Sop\PKCS5\PBEKD\PBEKDF1;
 
 /**
@@ -66,7 +69,7 @@ class PBES1 extends PBEScheme
      * @param Crypto $crypto
      */
     public function __construct(HashFunc $hash_func,
-        CipherAlgorithmIdentifier $cipher, $salt, $iteration_count,
+        CipherAlgorithmIdentifier $cipher, string $salt, int $iteration_count,
         Crypto $crypto)
     {
         $this->_hashFunc = $hash_func;
@@ -80,9 +83,8 @@ class PBES1 extends PBEScheme
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function encrypt($data, $password)
+    public function encrypt(string $data, string $password): string
     {
         $key = $this->kdf()->derive($password, $this->_salt,
             $this->_iterationCount, 16);
@@ -94,7 +96,7 @@ class PBES1 extends PBEScheme
      * {@inheritdoc}
      * @throws \UnexpectedValueException If key length is invalid
      */
-    public function encryptWithKey($data, $key)
+    public function encryptWithKey(string $data, string $key): string
     {
         if (strlen($key) !== 16) {
             throw new \UnexpectedValueException("Invalid key length.");
@@ -107,9 +109,8 @@ class PBES1 extends PBEScheme
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function decrypt($data, $password)
+    public function decrypt(string $data, string $password): string
     {
         $key = $this->kdf()->derive($password, $this->_salt,
             $this->_iterationCount, 16);
@@ -121,7 +122,7 @@ class PBES1 extends PBEScheme
      * {@inheritdoc}
      * @throws \UnexpectedValueException If decryption fails
      */
-    public function decryptWithKey($data, $key)
+    public function decryptWithKey(string $data, string $key): string
     {
         if (strlen($key) !== 16) {
             throw new \UnexpectedValueException("Invalid key length.");
@@ -131,16 +132,15 @@ class PBES1 extends PBEScheme
             $str = $this->_crypto->decrypt($data, substr($key, 0, 8), $algo);
             return $this->_padding->remove($str);
         } catch (\RuntimeException $e) {
-            throw new \UnexpectedValueException("Decryption failed.", null, $e);
+            throw new \UnexpectedValueException("Decryption failed.", 0, $e);
         }
     }
     
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function kdf()
+    public function kdf(): PBEKDF
     {
         return new PBEKDF1($this->_hashFunc);
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\PRF;
 
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -26,7 +28,7 @@ abstract class PRF
      * @param string $arg2 Second argument
      * @return string Output
      */
-    abstract public function compute($arg1, $arg2);
+    abstract public function compute(string $arg1, string $arg2): string;
     
     /**
      * Functor interface.
@@ -35,7 +37,7 @@ abstract class PRF
      * @param string $arg2
      * @return string
      */
-    public function __invoke($arg1, $arg2)
+    public function __invoke(string $arg1, string $arg2): string
     {
         return $this->compute($arg1, $arg2);
     }
@@ -45,7 +47,7 @@ abstract class PRF
      *
      * @return int
      */
-    public function length()
+    public function length(): int
     {
         return $this->_length;
     }
@@ -73,7 +75,7 @@ abstract class PRF
      * @throws \UnexpectedValueException
      * @return self
      */
-    public static function fromAlgorithmIdentifier(PRFAlgorithmIdentifier $algo)
+    public static function fromAlgorithmIdentifier(PRFAlgorithmIdentifier $algo): PRF
     {
         $oid = $algo->oid();
         if (array_key_exists($oid, self::MAP_HASH_OID_TO_CLASS)) {

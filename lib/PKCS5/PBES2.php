@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5;
 
 use Sop\CryptoBridge\Crypto;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\BlockCipherAlgorithmIdentifier;
+use Sop\PKCS5\PBEKD\PBEKDF;
 use Sop\PKCS5\PBEKD\PBEKDF2;
 use Sop\PKCS5\PRF\PRF;
 
@@ -66,7 +69,7 @@ class PBES2 extends PBEScheme
      * @param Crypto $crypto
      */
     public function __construct(PRF $prf, BlockCipherAlgorithmIdentifier $cipher,
-        $salt, $iteration_count, Crypto $crypto)
+        string $salt, int $iteration_count, Crypto $crypto)
     {
         $this->_prf = $prf;
         $this->_cipher = $cipher;
@@ -79,9 +82,8 @@ class PBES2 extends PBEScheme
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function encrypt($data, $password)
+    public function encrypt(string $data, string $password): string
     {
         $key = $this->kdf()->derive($password, $this->_salt,
             $this->_iterationCount, $this->_cipher->keySize());
@@ -91,9 +93,8 @@ class PBES2 extends PBEScheme
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function encryptWithKey($data, $key)
+    public function encryptWithKey(string $data, string $key): string
     {
         return $this->_crypto->encrypt($this->_padding->add($data), $key,
             $this->_cipher);
@@ -102,9 +103,8 @@ class PBES2 extends PBEScheme
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function decrypt($data, $password)
+    public function decrypt(string $data, string $password): string
     {
         $key = $this->kdf()->derive($password, $this->_salt,
             $this->_iterationCount, $this->_cipher->keySize());
@@ -116,22 +116,21 @@ class PBES2 extends PBEScheme
      * {@inheritdoc}
      * @throws \UnexpectedValueException If decryption fails
      */
-    public function decryptWithKey($data, $key)
+    public function decryptWithKey(string $data, string $key): string
     {
         try {
             $str = $this->_crypto->decrypt($data, $key, $this->_cipher);
             return $this->_padding->remove($str);
         } catch (\RuntimeException $e) {
-            throw new \UnexpectedValueException("Decryption failed.", null, $e);
+            throw new \UnexpectedValueException("Decryption failed.", 0, $e);
         }
     }
     
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function kdf()
+    public function kdf(): PBEKDF
     {
         return new PBEKDF2($this->_prf);
     }

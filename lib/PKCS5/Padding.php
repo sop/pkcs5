@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5;
 
 /**
@@ -21,7 +23,7 @@ class Padding
      *
      * @param int $blocksize Blocksize
      */
-    public function __construct($blocksize = 8)
+    public function __construct(int $blocksize = 8)
     {
         $this->_blocksize = $blocksize;
     }
@@ -32,7 +34,7 @@ class Padding
      * @param string $data
      * @return string Data padded to blocksize
      */
-    public function add($data)
+    public function add(string $data): string
     {
         $n = $this->_blocksize - strlen($data) % $this->_blocksize;
         return $data . str_repeat(chr($n), $n);
@@ -45,7 +47,7 @@ class Padding
      * @throws \UnexpectedValueException
      * @return string
      */
-    public function remove($data)
+    public function remove(string $data): string
     {
         $len = strlen($data);
         if (!$len) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sop\PKCS5\PBEKD;
 
 use Sop\PKCS5\HashFunc\HashFunc;
@@ -31,9 +33,9 @@ class PBEKDF1 extends PBEKDF
     /**
      *
      * {@inheritdoc}
-     *
      */
-    public function derive($password, $salt, $count, $length)
+    public function derive(string $password, string $salt, int $count,
+        int $length): string
     {
         if ($length > $this->_hashFunc->length()) {
             throw new \LogicException("Derived key too long.");
