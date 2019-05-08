@@ -1,36 +1,39 @@
 <?php
 
+declare(strict_types = 1);
+
 use PHPUnit\Framework\TestCase;
 use Sop\PKCS5\Padding;
 
 /**
  * @group pbe
+ *
+ * @internal
  */
 class PaddingTest extends TestCase
 {
     protected static $_padding;
-    
-    public static function setUpBeforeClass()
+
+    public static function setUpBeforeClass(): void
     {
         self::$_padding = new Padding(8);
     }
-    
-    public static function tearDownAfterClass()
+
+    public static function tearDownAfterClass(): void
     {
         self::$_padding = null;
     }
-    
+
     /**
-     *
      * @return string
      */
     public function testAddPadding()
     {
-        $str = self::$_padding->add("test");
+        $str = self::$_padding->add('test');
         $this->assertEquals("test\x4\x4\x4\x4", $str);
         return $str;
     }
-    
+
     /**
      * @depends testAddPadding
      *
@@ -39,38 +42,30 @@ class PaddingTest extends TestCase
     public function testRemovePadding($str)
     {
         $result = self::$_padding->remove($str);
-        $this->assertEquals("test", $result);
+        $this->assertEquals('test', $result);
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testNoPadding()
     {
-        self::$_padding->remove("");
+        $this->expectException(\UnexpectedValueException::class);
+        self::$_padding->remove('');
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testPaddingTooLong()
     {
-        self::$_padding->remove(hex2bin("badcafeeffffffff"));
+        $this->expectException(\UnexpectedValueException::class);
+        self::$_padding->remove(hex2bin('badcafeeffffffff'));
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testPaddingLargerThanBlock()
     {
-        self::$_padding->remove("testtes" . str_repeat("\x9", 9));
+        $this->expectException(\UnexpectedValueException::class);
+        self::$_padding->remove('testtes' . str_repeat("\x9", 9));
     }
-    
-    /**
-     * @expectedException UnexpectedValueException
-     */
+
     public function testInvalidPadding()
     {
-        self::$_padding->remove(hex2bin("badcafeeffffff04"));
+        $this->expectException(\UnexpectedValueException::class);
+        self::$_padding->remove(hex2bin('badcafeeffffff04'));
     }
 }

@@ -12,14 +12,15 @@ abstract class PBES1PKCS5AlgorithmIdentifier extends PBES1AlgorithmIdentifier
     /**
      * Constructor.
      *
-     * @param string $salt Salt
-     * @param int $iteration_count Iteration count
+     * @param string $salt            Salt
+     * @param int    $iteration_count Iteration count
+     *
      * @throws \UnexpectedValueException
      */
     public function __construct(string $salt, int $iteration_count)
     {
-        if (strlen($salt) !== 8) {
-            throw new \UnexpectedValueException("Salt length must be 8 octets.");
+        if (8 !== strlen($salt)) {
+            throw new \UnexpectedValueException('Salt length must be 8 octets.');
         }
         parent::__construct($salt, $iteration_count);
     }

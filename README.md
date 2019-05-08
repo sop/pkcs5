@@ -12,7 +12,7 @@ Provides ASN.1 types for PBE algorithm identifiers and related structures.
 
 ## Requirements
 
--   PHP >=7.0
+-   PHP >=7.2
 -   [sop/asn1](https://github.com/sop/asn1)
 -   [sop/crypto-types](https://github.com/sop/crypto-types)
 -   [sop/crypto-bridge](https://github.com/sop/crypto-bridge)

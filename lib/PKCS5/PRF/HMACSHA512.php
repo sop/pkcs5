@@ -16,13 +16,12 @@ class HMACSHA512 extends HMACPRF
     {
         $this->_length = 64;
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     protected function _hashAlgo(): string
     {
-        return "sha512";
+        return 'sha512';
     }
 }

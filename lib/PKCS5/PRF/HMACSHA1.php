@@ -7,7 +7,7 @@ namespace Sop\PKCS5\PRF;
 /**
  * Implements HMAC-SHA-1 as a pseudorandom function.
  *
- * @link https://tools.ietf.org/html/rfc2898#appendix-B.1.1
+ * @see https://tools.ietf.org/html/rfc2898#appendix-B.1.1
  */
 class HMACSHA1 extends HMACPRF
 {
@@ -18,13 +18,12 @@ class HMACSHA1 extends HMACPRF
     {
         $this->_length = 20;
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     protected function _hashAlgo(): string
     {
-        return "sha1";
+        return 'sha1';
     }
 }

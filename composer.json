@@ -1,37 +1,40 @@
 {
-	"name": "sop/pkcs5",
-	"description": "A PHP implementation of PKCS #5 password-based cryptography.",
-	"homepage": "https://github.com/sop/pkcs5",
-	"license": "MIT",
-	"type": "library",
-	"keywords": [
-		"pkcs5",
-		"key-derivation",
-		"password",
-		"pbes1",
-		"pbes2",
-		"pbkdf1",
-		"pbkdf2"
-	],
-	"authors": [
-		{
-			"name": "Joni Eskelinen",
-			"email": "jonieske@gmail.com",
-			"role": "Developer"
-		}
-	],
-	"require": {
-		"php": ">=7.0",
-		"sop/asn1": "^3.2.0",
-		"sop/crypto-types": "^0.2.1",
-		"sop/crypto-bridge": "^0.2.0"
-	},
-	"require-dev": {
-		"phpunit/phpunit": "^6.4"
-	},
-	"autoload": {
-		"psr-4": {
-			"Sop\\PKCS5\\": "lib/PKCS5"
-		}
-	}
+    "name": "sop/pkcs5",
+    "description": "A PHP implementation of PKCS #5 password-based cryptography.",
+    "homepage": "https://github.com/sop/pkcs5",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "pkcs5",
+        "key-derivation",
+        "password",
+        "pbes1",
+        "pbes2",
+        "pbkdf1",
+        "pbkdf2"
+    ],
+    "authors": [
+        {
+            "name": "Joni Eskelinen",
+            "email": "jonieske@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.2",
+        "ext-hash": "*",
+        "sop/asn1": "dev-php72 as 3.4.0",
+        "sop/crypto-types": "dev-php72 as 0.2.1",
+        "sop/crypto-bridge": "dev-php72 as 0.2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sop\\PKCS5\\": "lib/PKCS5"
+        }
+    }
 }

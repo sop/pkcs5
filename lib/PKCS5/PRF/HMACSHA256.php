@@ -16,13 +16,12 @@ class HMACSHA256 extends HMACPRF
     {
         $this->_length = 32;
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     protected function _hashAlgo(): string
     {
-        return "sha256";
+        return 'sha256';
     }
 }

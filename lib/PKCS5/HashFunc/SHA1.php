@@ -16,9 +16,8 @@ class SHA1 extends HashFunc
     {
         $this->_length = 20;
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     public function hash(string $data): string

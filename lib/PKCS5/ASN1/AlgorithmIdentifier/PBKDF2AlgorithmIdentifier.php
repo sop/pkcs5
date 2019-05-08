@@ -4,19 +4,18 @@ declare(strict_types = 1);
 
 namespace Sop\PKCS5\ASN1\AlgorithmIdentifier;
 
-use ASN1\Element;
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Constructed\Sequence;
-use ASN1\Type\Primitive\Integer;
-use ASN1\Type\Primitive\OctetString;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Constructed\Sequence;
+use Sop\ASN1\Type\Primitive\Integer;
+use Sop\ASN1\Type\Primitive\OctetString;
+use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifierFactory;
-use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Hash\HMACWithSHA1AlgorithmIdentifier;
+use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 
-/* @formatter:off *//*
-
+/*
 From RFC 2898 - A.2   PBKDF2:
 
 PBKDF2-params ::= SEQUENCE {
@@ -28,57 +27,56 @@ PBKDF2-params ::= SEQUENCE {
     keyLength INTEGER (1..MAX) OPTIONAL,
     prf AlgorithmIdentifier {{PBKDF2-PRFs}} DEFAULT
     algid-hmacWithSHA1 }
-
-*//* @formatter:on */
+*/
 
 /**
  * Algorithm identifier for PBKDF2 key derivation function.
  *
- * @link https://tools.ietf.org/html/rfc2898#section-5.2
- * @link https://tools.ietf.org/html/rfc2898#appendix-A.2
+ * @see https://tools.ietf.org/html/rfc2898#section-5.2
+ * @see https://tools.ietf.org/html/rfc2898#appendix-A.2
  */
 class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
 {
-    const OID_PBKDF2 = "1.2.840.113549.1.5.12";
-    
+    const OID_PBKDF2 = '1.2.840.113549.1.5.12';
+
     /**
      * Explicitly specified salt.
      *
-     * @var string $_salt
+     * @var string
      */
     protected $_specifiedSalt;
-    
+
     /**
      * Iteration count.
      *
-     * @var int $_iterationCount
+     * @var int
      */
     protected $_iterationCount;
-    
+
     /**
      * Key length.
      *
-     * @var int|null $_keyLength
+     * @var null|int
      */
     protected $_keyLength;
-    
+
     /**
      * Pseudorandom function algorithm identifier.
      *
-     * @var PRFAlgorithmIdentifier $_prfAlgo
+     * @var PRFAlgorithmIdentifier
      */
     protected $_prfAlgo;
-    
+
     /**
      * Constructor.
      *
-     * @param string $salt
-     * @param int $iteration_count
-     * @param int|null $key_length Optional key length
-     * @param PRFAlgorithmIdentifier|null $prf_algo Default to HMAC-SHA1
+     * @param string                      $salt
+     * @param int                         $iteration_count
+     * @param null|int                    $key_length      Optional key length
+     * @param null|PRFAlgorithmIdentifier $prf_algo        Default to HMAC-SHA1
      */
     public function __construct(string $salt, int $iteration_count,
-        $key_length = null, PRFAlgorithmIdentifier $prf_algo = null)
+        ?int $key_length = null, ?PRFAlgorithmIdentifier $prf_algo = null)
     {
         $this->_oid = self::OID_PBKDF2;
         $this->_specifiedSalt = $salt;
@@ -86,38 +84,38 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
         $this->_keyLength = $key_length;
         $this->_prfAlgo = isset($prf_algo) ? $prf_algo : new HMACWithSHA1AlgorithmIdentifier();
     }
-    
+
     /**
-     *
      * @param Sequence $seq
-     * @return \Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier
+     *
+     * @return AlgorithmIdentifier
      */
-    public static function fromASN1(Sequence $seq)
+    public static function fromASN1(Sequence $seq): AlgorithmIdentifier
     {
         return (new AlgorithmIdentifierFactory(
             new PKCS5AlgorithmIdentifierProvider()))->parse($seq);
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     public function name(): string
     {
-        return "pBKDF2";
+        return 'pBKDF2';
     }
-    
+
     /**
+     * {@inheritdoc}
      *
-     * @param UnspecifiedType $params
-     * @throws \UnexpectedValueException
      * @throws \RuntimeException
+     *
      * @return self
      */
-    public static function fromASN1Params(UnspecifiedType $params = null)
+    public static function fromASN1Params(
+        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         if (!isset($params)) {
-            throw new \UnexpectedValueException("No parameters.");
+            throw new \UnexpectedValueException('No parameters.');
         }
         $seq = $params->asSequence();
         $salt = null;
@@ -130,7 +128,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
             // otherSource
             case Element::TYPE_SEQUENCE:
                 AlgorithmIdentifier::fromASN1($el->asSequence());
-                throw new \RuntimeException("otherSource not implemented.");
+                throw new \RuntimeException('otherSource not implemented.');
         }
         $iteration_count = $seq->at(1)
             ->asInteger()
@@ -148,13 +146,13 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
                 $seq->at($idx++)->asSequence());
             if (!($prf_algo instanceof PRFAlgorithmIdentifier)) {
                 throw new \UnexpectedValueException(
-                    sprintf("%s is not a supported pseudorandom function.",
+                    sprintf('%s is not a supported pseudorandom function.',
                         $prf_algo->name()));
             }
         }
         return new self($salt, $iteration_count, $key_length, $prf_algo);
     }
-    
+
     /**
      * Get salt.
      *
@@ -164,7 +162,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
     {
         return $this->_specifiedSalt;
     }
-    
+
     /**
      * Get iteration count.
      *
@@ -174,7 +172,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
     {
         return $this->_iterationCount;
     }
-    
+
     /**
      * Whether key length is present.
      *
@@ -184,21 +182,22 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
     {
         return isset($this->_keyLength);
     }
-    
+
     /**
      * Get key length.
      *
      * @throws \LogicException
+     *
      * @return int
      */
     public function keyLength(): int
     {
         if (!$this->hasKeyLength()) {
-            throw new \LogicException("keyLength not set.");
+            throw new \LogicException('keyLength not set.');
         }
         return $this->_keyLength;
     }
-    
+
     /**
      * Get pseudorandom function algorithm.
      *
@@ -208,21 +207,21 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
     {
         return $this->_prfAlgo;
     }
-    
+
     /**
-     *
      * {@inheritdoc}
+     *
      * @return Sequence
      */
-    protected function _paramsASN1()
+    protected function _paramsASN1(): ?Element
     {
-        $elements = array();
+        $elements = [];
         $elements[] = new OctetString($this->_specifiedSalt);
         $elements[] = new Integer($this->_iterationCount);
         if (isset($this->_keyLength)) {
             $elements[] = new Integer($this->_keyLength);
         }
-        if ($this->_prfAlgo->oid() != AlgorithmIdentifier::OID_HMAC_WITH_SHA1) {
+        if (AlgorithmIdentifier::OID_HMAC_WITH_SHA1 != $this->_prfAlgo->oid()) {
             $elements[] = $this->_prfAlgo->toASN1();
         }
         return new Sequence(...$elements);

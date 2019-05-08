@@ -1,28 +1,31 @@
 <?php
 
-use ASN1\Type\Constructed\Sequence;
-use ASN1\Type\Primitive\ObjectIdentifier;
+declare(strict_types = 1);
+
 use PHPUnit\Framework\TestCase;
+use Sop\ASN1\Type\Constructed\Sequence;
+use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
-use Sop\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
+use Sop\CryptoTypes\AlgorithmIdentifier\GenericAlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Hash\HMACWithSHA256AlgorithmIdentifier;
 use Sop\PKCS5\ASN1\AlgorithmIdentifier\PBKDF2AlgorithmIdentifier;
 
 /**
  * @group asn1
  * @group algo-id
+ *
+ * @internal
  */
 class PBEKDF2AITest extends TestCase
 {
-    const SALT = "12345678";
-    
+    const SALT = '12345678';
+
     const COUNT = 4096;
-    
+
     const KEY_LEN = 8;
-    
+
     /**
-     *
      * @return Sequence
      */
     public function testEncode()
@@ -33,11 +36,12 @@ class PBEKDF2AITest extends TestCase
         $this->assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
-    
+
     /**
      * @depends testEncode
      *
      * @param Sequence $seq
+     *
      * @return AlgorithmIdentifier
      */
     public function testDecode(Sequence $seq)
@@ -46,7 +50,7 @@ class PBEKDF2AITest extends TestCase
         $this->assertInstanceOf(PBKDF2AlgorithmIdentifier::class, $ai);
         return $ai;
     }
-    
+
     /**
      * @depends testDecode
      *
@@ -56,7 +60,7 @@ class PBEKDF2AITest extends TestCase
     {
         $this->assertEquals(self::SALT, $ai->salt());
     }
-    
+
     /**
      * @depends testDecode
      *
@@ -66,7 +70,7 @@ class PBEKDF2AITest extends TestCase
     {
         $this->assertEquals(self::COUNT, $ai->iterationCount());
     }
-    
+
     /**
      * @depends testDecode
      *
@@ -76,16 +80,14 @@ class PBEKDF2AITest extends TestCase
     {
         $this->assertEquals(self::KEY_LEN, $ai->keyLength());
     }
-    
-    /**
-     * @expectedException LogicException
-     */
+
     public function testKeyLengthFails()
     {
         $ai = new PBKDF2AlgorithmIdentifier("\0", 1);
+        $this->expectException(\LogicException::class);
         $ai->keyLength();
     }
-    
+
     /**
      * @depends testDecode
      *
@@ -96,21 +98,20 @@ class PBEKDF2AITest extends TestCase
         $algo = $ai->prfAlgorithmIdentifier();
         $this->assertInstanceOf(PRFAlgorithmIdentifier::class, $algo);
     }
-    
+
     /**
      * @depends testEncode
-     * @expectedException UnexpectedValueException
      *
      * @param Sequence $seq
      */
     public function testDecodeNoParamsFail(Sequence $seq)
     {
         $seq = $seq->withoutElement(1);
+        $this->expectException(\UnexpectedValueException::class);
         PBKDF2AlgorithmIdentifier::fromASN1($seq);
     }
-    
+
     /**
-     *
      * @return Sequence
      */
     public function testEncodeExplicitPRF()
@@ -121,7 +122,7 @@ class PBEKDF2AITest extends TestCase
         $this->assertInstanceOf(Sequence::class, $seq);
         return $seq;
     }
-    
+
     /**
      * @depends testEncodeExplicitPRF
      *
@@ -133,7 +134,7 @@ class PBEKDF2AITest extends TestCase
         $this->assertInstanceOf(PBKDF2AlgorithmIdentifier::class, $ai);
         return $ai;
     }
-    
+
     /**
      * @depends testDecodeExplicitPRF
      *
@@ -144,37 +145,38 @@ class PBEKDF2AITest extends TestCase
         $this->assertInstanceOf(HMACWithSHA256AlgorithmIdentifier::class,
             $ai->prfAlgorithmIdentifier());
     }
-    
+
     /**
      * @depends testEncode
-     * @expectedException UnexpectedValueException
      *
      * @param Sequence $seq
      */
     public function testInvalidPRF(Sequence $seq)
     {
-        $prf = new Sequence(new ObjectIdentifier("1.3.6.1.3"));
-        $params = $seq->at(1);
+        $prf = new Sequence(new ObjectIdentifier('1.3.6.1.3'));
+        $params = $seq->at(1)->asSequence();
         $params = $params->withInserted(3, $prf);
         $seq = $seq->withReplaced(1, $params);
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('not a supported pseudorandom function');
         PBKDF2AlgorithmIdentifier::fromASN1($seq);
     }
-    
+
     /**
      * @depends testEncode
-     * @expectedException RuntimeException
      *
      * @param Sequence $seq
      */
     public function testDecodeOtherSaltSourceFail(Sequence $seq)
     {
-        $algo = new GenericAlgorithmIdentifier("1.3.6.1.3");
-        $params = $seq->at(1);
+        $algo = new GenericAlgorithmIdentifier('1.3.6.1.3');
+        $params = $seq->at(1)->asSequence();
         $params = $params->withReplaced(0, $algo->toASN1());
         $seq = $seq->withReplaced(1, $params);
+        $this->expectException(\RuntimeException::class);
         PBKDF2AlgorithmIdentifier::fromASN1($seq);
     }
-    
+
     /**
      * @depends testDecode
      *
@@ -182,6 +184,6 @@ class PBEKDF2AITest extends TestCase
      */
     public function testName(AlgorithmIdentifier $algo)
     {
-        $this->assertInternalType("string", $algo->name());
+        $this->assertIsString($algo->name());
     }
 }

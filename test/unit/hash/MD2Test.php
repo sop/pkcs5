@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 use PHPUnit\Framework\TestCase;
 use Sop\PKCS5\HashFunc\HashFunc;
 use Sop\PKCS5\HashFunc\MD2;
@@ -7,11 +9,12 @@ use Sop\PKCS5\HashFunc\MD2;
 /**
  * @group pbe
  * @group hash
+ *
+ * @internal
  */
 class PBEMD2Test extends TestCase
 {
     /**
-     *
      * @return HashFunc
      */
     public function testCreate()
@@ -20,7 +23,7 @@ class PBEMD2Test extends TestCase
         $this->assertInstanceOf(HashFunc::class, $func);
         return $func;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -30,7 +33,7 @@ class PBEMD2Test extends TestCase
     {
         $this->assertEquals(16, $func->length());
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -38,8 +41,8 @@ class PBEMD2Test extends TestCase
      */
     public function testHash(HashFunc $func)
     {
-        static $data = "DATA";
-        $expected = hash("md2", $data, true);
+        static $data = 'DATA';
+        $expected = hash('md2', $data, true);
         $this->assertEquals($expected, $func($data));
     }
 }

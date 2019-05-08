@@ -10,38 +10,54 @@ use Sop\CryptoTypes\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
 /**
  * Base class for pseudorandom functions used in password-based cryptography.
  *
- * @link https://tools.ietf.org/html/rfc2898#appendix-B.1
+ * @see https://tools.ietf.org/html/rfc2898#appendix-B.1
  */
 abstract class PRF
 {
     /**
+     * Mapping from hash algorithm identifier OID to class name.
+     *
+     * @internal
+     *
+     * @var array
+     */
+    const MAP_HASH_OID_TO_CLASS = [
+        AlgorithmIdentifier::OID_HMAC_WITH_SHA1 => HMACSHA1::class,
+        AlgorithmIdentifier::OID_HMAC_WITH_SHA224 => HMACSHA224::class,
+        AlgorithmIdentifier::OID_HMAC_WITH_SHA256 => HMACSHA256::class,
+        AlgorithmIdentifier::OID_HMAC_WITH_SHA384 => HMACSHA384::class,
+        AlgorithmIdentifier::OID_HMAC_WITH_SHA512 => HMACSHA512::class,
+    ];
+    /**
      * Length of the produced output in bytes.
      *
-     * @var int $_length
+     * @var int
      */
     protected $_length;
-    
-    /**
-     * Compute pseudorandom value from arguments.
-     *
-     * @param string $arg1 First argument
-     * @param string $arg2 Second argument
-     * @return string Output
-     */
-    abstract public function compute(string $arg1, string $arg2): string;
-    
+
     /**
      * Functor interface.
      *
      * @param string $arg1
      * @param string $arg2
+     *
      * @return string
      */
     public function __invoke(string $arg1, string $arg2): string
     {
         return $this->compute($arg1, $arg2);
     }
-    
+
+    /**
+     * Compute pseudorandom value from arguments.
+     *
+     * @param string $arg1 First argument
+     * @param string $arg2 Second argument
+     *
+     * @return string Output
+     */
+    abstract public function compute(string $arg1, string $arg2): string;
+
     /**
      * Get output length.
      *
@@ -51,28 +67,14 @@ abstract class PRF
     {
         return $this->_length;
     }
-    
-    /**
-     * Mapping from hash algorithm identifier OID to class name.
-     *
-     * @internal
-     * @var array
-     */
-    const MAP_HASH_OID_TO_CLASS = array(
-        /* @formatter:off */
-        AlgorithmIdentifier::OID_HMAC_WITH_SHA1 => HMACSHA1::class,
-        AlgorithmIdentifier::OID_HMAC_WITH_SHA224 => HMACSHA224::class,
-        AlgorithmIdentifier::OID_HMAC_WITH_SHA256 => HMACSHA256::class,
-        AlgorithmIdentifier::OID_HMAC_WITH_SHA384 => HMACSHA384::class,
-        AlgorithmIdentifier::OID_HMAC_WITH_SHA512 => HMACSHA512::class
-        /* @formatter:on */
-    );
-    
+
     /**
      * Get PRF by algorithm identifier.
      *
      * @param PRFAlgorithmIdentifier $algo
+     *
      * @throws \UnexpectedValueException
+     *
      * @return self
      */
     public static function fromAlgorithmIdentifier(PRFAlgorithmIdentifier $algo): PRF
@@ -83,6 +85,6 @@ abstract class PRF
             return new $cls();
         }
         throw new \UnexpectedValueException(
-            "PRF algorithm " . $algo->oid() . " not supported.");
+            'PRF algorithm ' . $algo->oid() . ' not supported.');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 use PHPUnit\Framework\TestCase;
 use Sop\PKCS5\HashFunc\MD5;
 use Sop\PKCS5\PBEKD\PBEKDF;
@@ -8,11 +10,12 @@ use Sop\PKCS5\PBEKD\PBEKDF1;
 /**
  * @group pbe
  * @group kdf
+ *
+ * @internal
  */
 class PBEKDF1Test extends TestCase
 {
     /**
-     *
      * @return PBEKDF
      */
     public function testCreate()
@@ -21,7 +24,7 @@ class PBEKDF1Test extends TestCase
         $this->assertInstanceOf(PBEKDF::class, $kdf);
         return $kdf;
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -29,10 +32,10 @@ class PBEKDF1Test extends TestCase
      */
     public function testDerive(PBEKDF $kdf)
     {
-        $key = $kdf->derive("password", "salt", 8, 16);
+        $key = $kdf->derive('password', 'salt', 8, 16);
         $this->assertEquals(16, strlen($key));
     }
-    
+
     /**
      * @depends testCreate
      *
@@ -40,18 +43,18 @@ class PBEKDF1Test extends TestCase
      */
     public function testDeriveShort(PBEKDF $kdf)
     {
-        $key = $kdf->derive("password", "salt", 8, 10);
+        $key = $kdf->derive('password', 'salt', 8, 10);
         $this->assertEquals(10, strlen($key));
     }
-    
+
     /**
      * @depends testCreate
-     * @expectedException LogicException
      *
      * @param PBEKDF $kdf
      */
     public function testKeyTooLong(PBEKDF $kdf)
     {
-        $kdf->derive("password", "salt", 1, 17);
+        $this->expectException(\LogicException::class);
+        $kdf->derive('password', 'salt', 1, 17);
     }
 }

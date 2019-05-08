@@ -16,9 +16,8 @@ class MD5 extends HashFunc
     {
         $this->_length = 16;
     }
-    
+
     /**
-     *
      * {@inheritdoc}
      */
     public function hash(string $data): string

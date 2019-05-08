@@ -12,29 +12,31 @@ abstract class HashFunc
     /**
      * Length of the produced hash in bytes.
      *
-     * @var int $_length
+     * @var int
      */
     protected $_length;
-    
-    /**
-     * Hash function.
-     *
-     * @param string $data
-     * @return string Hash result in raw format
-     */
-    abstract public function hash(string $data): string;
-    
+
     /**
      * Functor interface.
      *
      * @param string $data
+     *
      * @return string
      */
     public function __invoke(string $data): string
     {
         return $this->hash($data);
     }
-    
+
+    /**
+     * Hash function.
+     *
+     * @param string $data
+     *
+     * @return string Hash result in raw format
+     */
+    abstract public function hash(string $data): string;
+
     /**
      * Get hash length.
      *

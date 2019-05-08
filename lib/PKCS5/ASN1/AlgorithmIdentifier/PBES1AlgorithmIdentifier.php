@@ -4,15 +4,16 @@ declare(strict_types = 1);
 
 namespace Sop\PKCS5\ASN1\AlgorithmIdentifier;
 
-use ASN1\Type\UnspecifiedType;
-use ASN1\Type\Constructed\Sequence;
-use ASN1\Type\Primitive\Integer;
-use ASN1\Type\Primitive\OctetString;
+use Sop\ASN1\Element;
+use Sop\ASN1\Type\Constructed\Sequence;
+use Sop\ASN1\Type\Primitive\Integer;
+use Sop\ASN1\Type\Primitive\OctetString;
+use Sop\ASN1\Type\UnspecifiedType;
 use Sop\CryptoTypes\AlgorithmIdentifier\Cipher\BlockCipherAlgorithmIdentifier;
+use Sop\CryptoTypes\AlgorithmIdentifier\SpecificAlgorithmIdentifier;
 use Sop\PKCS5\HashFunc\HashFunc;
 
-/* @formatter:off *//*
-
+/*
 From RFC 2898 - A.3 PBES1:
 
    For each OID, the parameters field associated with the OID in an
@@ -27,20 +28,19 @@ From RFC 7292 - Appendix C.  Keys and IVs for Password Privacy Mode:
    This standard does not prescribe a length for the salt either.
    Ideally, the salt is as long as the output of the hash function being
    used and consists of completely random bits.
-   
+
    pkcs-12PbeParams ::= SEQUENCE {
        salt        OCTET STRING,
        iterations  INTEGER
    }
-
-*//* @formatter:on */
+*/
 
 /**
  * Base class for PBES1 encryption scheme.
  *
- * @link https://tools.ietf.org/html/rfc2898#section-6.1
- * @link https://tools.ietf.org/html/rfc2898#appendix-A.3
- * @link https://tools.ietf.org/html/rfc7292#appendix-C
+ * @see https://tools.ietf.org/html/rfc2898#section-6.1
+ * @see https://tools.ietf.org/html/rfc2898#appendix-A.3
+ * @see https://tools.ietf.org/html/rfc7292#appendix-C
  */
 abstract class PBES1AlgorithmIdentifier extends PBEAlgorithmIdentifier
 {
@@ -50,24 +50,24 @@ abstract class PBES1AlgorithmIdentifier extends PBEAlgorithmIdentifier
      * @return HashFunc
      */
     abstract public function hashFunc(): HashFunc;
-    
+
     /**
      * Get the block cipher algorithm identifier used by the scheme.
      *
      * @return BlockCipherAlgorithmIdentifier
      */
     abstract public function blockCipher(): BlockCipherAlgorithmIdentifier;
-    
+
     /**
+     * {@inheritdoc}
      *
-     * @param UnspecifiedType $params
-     * @throws \UnexpectedValueException
-     * @return PBES1AlgorithmIdentifier
+     * @return self
      */
-    public static function fromASN1Params(UnspecifiedType $params = null)
+    public static function fromASN1Params(
+        ?UnspecifiedType $params = null): SpecificAlgorithmIdentifier
     {
         if (!isset($params)) {
-            throw new \UnexpectedValueException("No parameters.");
+            throw new \UnexpectedValueException('No parameters.');
         }
         $seq = $params->asSequence();
         $salt = $seq->at(0)
@@ -78,12 +78,13 @@ abstract class PBES1AlgorithmIdentifier extends PBEAlgorithmIdentifier
             ->intNumber();
         return new static($salt, $iteration_count);
     }
-    
+
     /**
-     *
      * {@inheritdoc}
+     *
+     * @return Sequence
      */
-    protected function _paramsASN1()
+    protected function _paramsASN1(): ?Element
     {
         return new Sequence(new OctetString($this->_salt),
             new Integer($this->_iterationCount));
