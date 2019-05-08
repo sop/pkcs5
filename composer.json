@@ -34,7 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Sop\\PKCS5\\": "lib/PKCS5"
+            "Sop\\PKCS5\\": "lib/PKCS5/"
         }
     }
 }
