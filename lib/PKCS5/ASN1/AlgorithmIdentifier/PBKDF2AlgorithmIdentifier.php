@@ -70,8 +70,8 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
     /**
      * Constructor.
      *
-     * @param string                      $salt
-     * @param int                         $iteration_count
+     * @param string                      $salt            Salt
+     * @param int                         $iteration_count Iteration count
      * @param null|int                    $key_length      Optional key length
      * @param null|PRFAlgorithmIdentifier $prf_algo        Default to HMAC-SHA1
      */
@@ -118,7 +118,6 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
             throw new \UnexpectedValueException('No parameters.');
         }
         $seq = $params->asSequence();
-        $salt = null;
         $el = $seq->at(0);
         switch ($el->tag()) {
             // specified
