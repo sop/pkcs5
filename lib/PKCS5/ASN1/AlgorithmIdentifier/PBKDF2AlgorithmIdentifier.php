@@ -129,6 +129,8 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
             case Element::TYPE_SEQUENCE:
                 AlgorithmIdentifier::fromASN1($el->asSequence());
                 throw new \RuntimeException('otherSource not implemented.');
+            default:
+                throw new \UnexpectedValueException('Invalid salt encoding.');
         }
         $iteration_count = $seq->at(1)
             ->asInteger()

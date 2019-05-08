@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 use PHPUnit\Framework\TestCase;
 use Sop\ASN1\Type\Constructed\Sequence;
+use Sop\ASN1\Type\Primitive\NullType;
 use Sop\ASN1\Type\Primitive\ObjectIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use Sop\CryptoTypes\AlgorithmIdentifier\Feature\PRFAlgorithmIdentifier;
@@ -174,6 +175,21 @@ class PBEKDF2AITest extends TestCase
         $params = $params->withReplaced(0, $algo->toASN1());
         $seq = $seq->withReplaced(1, $params);
         $this->expectException(\RuntimeException::class);
+        PBKDF2AlgorithmIdentifier::fromASN1($seq);
+    }
+
+    /**
+     * @depends testEncode
+     *
+     * @param Sequence $seq
+     */
+    public function testDecodeInvalidSaltChoiceFail(Sequence $seq)
+    {
+        $params = $seq->at(1)->asSequence();
+        $params = $params->withReplaced(0, new NullType());
+        $seq = $seq->withReplaced(1, $params);
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Invalid salt encoding');
         PBKDF2AlgorithmIdentifier::fromASN1($seq);
     }
 
