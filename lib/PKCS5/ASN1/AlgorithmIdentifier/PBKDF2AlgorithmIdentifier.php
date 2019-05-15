@@ -131,16 +131,12 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
             default:
                 throw new \UnexpectedValueException('Invalid salt encoding.');
         }
-        $iteration_count = $seq->at(1)
-            ->asInteger()
-            ->intNumber();
+        $iteration_count = $seq->at(1)->asInteger()->intNumber();
         $key_length = null;
         $prf_algo = null;
         $idx = 2;
         if ($seq->has($idx, Element::TYPE_INTEGER)) {
-            $key_length = $seq->at($idx++)
-                ->asInteger()
-                ->intNumber();
+            $key_length = $seq->at($idx++)->asInteger()->intNumber();
         }
         if ($seq->has($idx, Element::TYPE_SEQUENCE)) {
             $prf_algo = AlgorithmIdentifier::fromASN1(
@@ -222,7 +218,7 @@ class PBKDF2AlgorithmIdentifier extends SpecificAlgorithmIdentifier
         if (isset($this->_keyLength)) {
             $elements[] = new Integer($this->_keyLength);
         }
-        if (AlgorithmIdentifier::OID_HMAC_WITH_SHA1 != $this->_prfAlgo->oid()) {
+        if (AlgorithmIdentifier::OID_HMAC_WITH_SHA1 !== $this->_prfAlgo->oid()) {
             $elements[] = $this->_prfAlgo->toASN1();
         }
         return new Sequence(...$elements);

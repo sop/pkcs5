@@ -70,12 +70,8 @@ abstract class PBES1AlgorithmIdentifier extends PBEAlgorithmIdentifier
             throw new \UnexpectedValueException('No parameters.');
         }
         $seq = $params->asSequence();
-        $salt = $seq->at(0)
-            ->asOctetString()
-            ->string();
-        $iteration_count = $seq->at(1)
-            ->asInteger()
-            ->intNumber();
+        $salt = $seq->at(0)->asOctetString()->string();
+        $iteration_count = $seq->at(1)->asInteger()->intNumber();
         return new static($salt, $iteration_count);
     }
 
