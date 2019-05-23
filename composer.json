@@ -20,14 +20,12 @@
             "role": "Developer"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": ">=7.2",
         "ext-hash": "*",
-        "sop/asn1": "dev-master as 3.4.0",
-        "sop/crypto-types": "dev-master as 0.2.1",
-        "sop/crypto-bridge": "dev-master as 0.2.0"
+        "sop/asn1": "^4.0.0",
+        "sop/crypto-types": "^0.3.0",
+        "sop/crypto-bridge": "^0.3.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.1"
